@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style.css';
+import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { IoSearchOutline } from 'react-icons/io5';
 

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import Card from "./Card"; // Убедитесь, что путь к файлу правильный
+import Card from "./Card";
+import { MdOutlineNotInterested } from "react-icons/md";
 
-interface Post {
+export interface Post {
   id: number;
   userImg: string;
   userName: string;
@@ -17,20 +17,17 @@ interface Post {
   linkThird: string;
 }
 
-interface CardsProps {
-  posts: Post[];
+export default function Cards({ posts }: { posts: Post[] }) {
+  return (
+    <main className="main">
+      {posts.length === 0 ? (
+        <div className="no-post">
+        <MdOutlineNotInterested size={150}/>
+        <span>No posts available</span>
+        </div>
+      ) : (
+        posts.map((post) => <Card key={post.id} item={post} />)
+      )}
+    </main>
+  );
 }
-
-export class Cards extends Component<CardsProps> {
-  render() {
-    const { posts } = this.props;
-    console.log('Posts in Cards:', posts);
-    return (
-      <main className='main'>
-        <Card posts={posts} />
-      </main>
-    );
-  }
-}
-
-export default Cards;

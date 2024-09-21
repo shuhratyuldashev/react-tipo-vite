@@ -1,73 +1,54 @@
-import React, { Component, useState } from "react";
 import { RiEditLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
 
-interface Post {
-  id: number;
-  userImg: string;
-  userName: string;
-  postCover: string;
-  postTitle: string;
-  postSubTitle: string;
-  postContent: string;
-  linkNameFirst: string;
-  linkFirst: string;
-  linkNameSecond: string;
-  linkSecond: string;
-  linkThirdName: string;
-  linkThird: string;
-}
+import { Post } from "./Cards";
 
-interface CardProps {
-  posts: Post[];
-}
+import PhotoComponent from "./Photo";
+import ImgComponents from "./Img.tsx"
 
-export default function CardComponent({ posts }: { posts: Post[] }) {
-  console.log("Posts in Card:", posts);
-
-  const [isValidUrl, setIsValidUrl] = useState(true); // Флаг для отслеживания валидности URL
-
-  const handleImageError = () => {
-    setIsValidUrl(false); // Если произошла ошибка загрузки, меняем флаг
-  };
-
+export default function CardComponent({ item }: { item: Post }) {
   return (
     <div>
-      {posts.length === 0 ? (
-        <p>No posts available</p>
-      ) : (
-        posts.map((post) => (
-          <div key={post.id} className="post-card">
-            <div className="header-post">
-              <div className="user-info">
-                <img src={post.userImg} alt={post.userName} />
-                <span>{post.userName}</span>
-              </div>
-              <div className="btns-post">
-                <button>
-                  <RiEditLine clasName="btns-post-icon" size={25} />
-                  <span>Редактировать пост</span>
-                </button>
-                <button>
-                  <AiOutlineDelete className="btns-post-icon" size={25} />
-                  <span>Удалить</span>
-                </button>
-              </div>
-            </div>
-            {isValidUrl && (
-              <img
-                src={post.postCover}
-                alt={post.postTitle}
-                onError={handleImageError}
-              />
-            )}
-            <h2>{post.postTitle}</h2>
-            <h3>{post.postSubTitle}</h3>
-            <p>{post.postContent}</p>
-            {/* Добавьте здесь остальной контент поста, если нужно */}
+      <div key={item.id} className="post-card">
+        <div className="header-post">
+          <div className="user-info">
+            <ImgComponents
+              photo={item.userImg}
+              alt={item.userName}
+            ></ImgComponents>
+            <span>{item.userName}</span>
           </div>
-        ))
-      )}
+          <div className="btns-post">
+            <button>
+              <RiEditLine className="btns-post-icon desktop" size={25} />
+              <RiEditLine className="btns-post-icon mobile" size={15} />
+              <span>Edit</span>
+            </button>
+            <button>
+              <AiOutlineDelete className="btns-post-icon desktop" size={25} />
+              <AiOutlineDelete className="btns-post-icon mobile" size={15} />
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
+
+        <PhotoComponent
+          photo={item.postCover}
+          alt={item.postTitle}
+        ></PhotoComponent>
+
+        <div className="content-post">
+          <h2>{item.postTitle}</h2>
+          <h3>{item.postSubTitle}</h3>
+          <p>{item.postContent}</p>
+
+          <ul className="links">
+            <li className="link"><a href={item.linkFirst}>{item.linkNameFirst}</a></li>
+            <li className="link"><a href={item.linkSecond}>{item.linkNameSecond}</a></li>
+            <li className="link"><a href={item.linkThird}>{item.linkThirdName}</a></li>
+          </ul>
+        </div>
+       </div>
     </div>
   );
 }
